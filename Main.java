@@ -1,34 +1,130 @@
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
+        CRMSystem crm = new CRMSystem();
+        Scanner sc = new Scanner(System.in);
+        int choice;
 
-        // Create Customers
-        Customer customer1 = new Customer(1, "John Doe", "jd@gmail.com", "6981234567");
-        Customer customer2 = new Customer(2, "Jane Smith","js@yahoo.com", "6998765432");
+        do {
+            System.out.println("\n======= CRM Console Menu =======");
+            System.out.println("1. Add Customer");
+            System.out.println("2. Add Product");
+            System.out.println("3. Create Order");
+            System.out.println("4. Show Customers");
+            System.out.println("5. Show Products");
+            System.out.println("6. Show Orders");
+            System.out.println("0. Exit");
+            System.out.print("Select an option: ");
 
-        // Create products
-        Product product1 = new Product(1,"Laptop", 950.00, 10);
-        Product product2 = new Product(2, "Mouse", 25.50, 50);
-        Product product3 = new Product(3, "Keyboard", 45.00, 30);
+            choice = sc.nextInt();
+            sc.nextLine(); 
 
-        // John's order creation
-        Order order1 = new Order(customer1);
-        order1.addProduct(product1, 0);  // 2 laptops
-        order1.addProduct(product2, 1);  // 1 mouse
+            switch (choice) {
+                case 1:
+                    System.out.print("Customer ID: ");
+                    int cid = sc.nextInt(); 
+                    sc.nextLine();
+                    System.out.print("Customer Name: ");
+                    String cname = sc.nextLine();
+                    System.out.print("Customer Email: ");
+                    String cemail = sc.nextLine();
+                    System.out.print("Customer Phone: ");
+                    String cphone = sc.nextLine();
+                    try {
+                        crm.addCustomer(new Customer(cid, cname, cemail, cphone));
+                        System.out.println("Customer added!");
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Error: " + e.getMessage());
+                    }
+                    break;
 
-        // Jane's order creation
-        Order order2 = new Order(customer2);
-        order2.addProduct(product2, 3);  // 3 mice
-        order2.addProduct(product3, 2);  // 2 keyboards
+                case 2:
+                    System.out.print("Product ID: ");
+                    int pid = sc.nextInt(); 
+                    sc.nextLine();
+                    System.out.print("Product Name: ");
+                    String pname = sc.nextLine();
+                    System.out.print("Product Price: ");
+                    double price = sc.nextDouble();
+                    System.out.print("Product Stock: ");
+                    int stock = sc.nextInt(); 
+                    sc.nextLine();
+                    try {
+                        crm.addProduct(new Product(pid, pname, price, stock));
+                        System.out.println("Product added!");
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Error: " + e.getMessage());
+                    }
+                    break;
 
-        // Show orders
-        System.out.println(order1);
-        System.out.println();   
-        System.out.println(order2);
+                case 3:
+                    System.out.print("Customer ID for the order: ");
+                    int orderCid = sc.nextInt(); 
+                    sc.nextLine();
+                    Customer orderCustomer = crm.findCustomerById(orderCid);
 
-        // Show new stock
-        System.out.println("\nUpdated Product Stock:");
-        System.out.println(product1);
-        System.out.println(product2);
-        System.out.println(product3);
+                    if (orderCustomer == null) {
+                        System.out.println("Customer not found!");
+                        break;
+                    }
+
+                    Order order = new Order(orderCustomer);
+                    int prodId;
+                    do {
+                        System.out.print("Product ID to add (0 to finish): ");
+                        prodId = sc.nextInt(); 
+                        sc.nextLine();
+                        if (prodId == 0) break;
+
+                        Product product = crm.findProductById(prodId);
+                        if (product == null) {
+                            System.out.println("Product not found!");
+                            continue;
+                        }
+
+                        System.out.print("Quantity: ");
+                        int qty = sc.nextInt(); 
+                        sc.nextLine();
+
+                        try {
+                            order.addProduct(product, qty);
+                            System.out.println("Product added to order!");
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Error: " + e.getMessage());
+                        }
+                    } while (prodId != 0);
+
+                    if (order.getItems().isEmpty()) {
+                        System.out.println("No items added. Order cancelled.");
+                    } else {
+                        crm.addOrder(order);
+                        System.out.println("Order created!");
+                    }
+                    break;
+
+                case 4:
+                    crm.showCustomers();
+                    break;
+
+                case 5:
+                    crm.showProducts();
+                    break;
+
+                case 6:
+                    crm.showOrders();
+                    break;
+
+                case 0:
+                    System.out.println("Exiting...");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice!");
+            }
+
+        } while (choice != 0);
+
+        sc.close();
     }
 }

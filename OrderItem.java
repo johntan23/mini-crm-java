@@ -17,8 +17,8 @@ class OrderItem {
     public int getQuantity() { return quantity; }
     public double getTotal() { return product.getPrice() * quantity; }
 
-    @Override
+    /*@Override
     public String toString() {
         return  product.getName() + " | Quantity: " + quantity + " | Total: " + String.format("%.2f€", getTotal());
-    }
+    }*/
 }

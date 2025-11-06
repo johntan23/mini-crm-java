@@ -21,15 +21,22 @@ public class Order {
         return total;
     }
 
+    public List<OrderItem> getItems() {
+        return List.copyOf(items); 
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Order for ").append(customer.getName()).append(":\n");
+        sb.append(String.format("%-15s | %-8s | %-10s\n", "Product", "Quantity", "Total"));
+        sb.append("----------------------------------\n");
         for (OrderItem item : items) { 
-            sb.append("  - ").append(item).append("\n"); 
+            sb.append(String.format("%-15s | %-8d | %-10.2f€\n", 
+            item.getProduct().getName(), 
+            item.getQuantity(), 
+            item.getTotal()));
         }
-        sb.append("Total Order Cost: ").append(String.format("%.2f€", getTotal()));
         return sb.toString();
     }
-    
 }
