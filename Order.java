@@ -28,7 +28,7 @@ public class Order {
         for (OrderItem item : items) { 
             sb.append("  - ").append(item).append("\n"); 
         }
-        sb.append("Total Order Cost: ").append(getTotal());
+        sb.append("Total Order Cost: ").append(String.format("%.2f€", getTotal()));
         return sb.toString();
     }
     

@@ -1,10 +1,15 @@
 public class Product {
-    private int id;
+    private final int id;
     private String name;
     private double price;
     private int stock;
 
     public Product(int id, String name, double price, int stock) {
+        if (price <=0) { throw new IllegalArgumentException("Price must be positive"); }
+        if (stock < 0) { throw new IllegalArgumentException("Stock cannot be negative"); }
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Name cannot be null or empty");
+        }              
         this.id = id;
         this.name = name;
         this.price = price;
@@ -16,8 +21,14 @@ public class Product {
     public double getPrice() { return price; }
     public int getStock() { return stock; }
 
-    public void setPrice(double price) { this.price = price; }
-    public void setStock(int stock) { this.stock = stock; }
+    public void setPrice(double price) { 
+        if (price <=0) { throw new IllegalArgumentException("Price must be positive"); }
+        this.price = price; 
+    }
+    public void setStock(int stock) { 
+        if (stock < 0) { throw new IllegalArgumentException("Stock cannot be negative"); }
+        this.stock = stock; 
+    }
     
     public void reduceStock(int quantity) {
         if (quantity <= stock) {

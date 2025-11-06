@@ -12,7 +12,7 @@ public class Main {
 
         // John's order creation
         Order order1 = new Order(customer1);
-        order1.addProduct(product1, 2);  // 2 laptops
+        order1.addProduct(product1, 0);  // 2 laptops
         order1.addProduct(product2, 1);  // 1 mouse
 
         // Jane's order creation

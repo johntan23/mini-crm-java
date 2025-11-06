@@ -6,6 +6,8 @@ class OrderItem {
     private int quantity;
 
     public OrderItem(Product product, int quantity) {
+        if (quantity <=0) { throw new IllegalArgumentException("Quantity must be greater than 0"); }
+        if (quantity > product.getStock()) { throw new IllegalArgumentException("Not enough stock for product: " + product.getName()); }
         this.product = product;
         this.quantity = quantity;
         product.reduceStock(quantity); 
@@ -17,6 +19,6 @@ class OrderItem {
 
     @Override
     public String toString() {
-        return  product.getName() + " | Quantity: " + quantity + " | Total: " + getTotal();
+        return  product.getName() + " | Quantity: " + quantity + " | Total: " + String.format("%.2f€", getTotal());
     }
 }
