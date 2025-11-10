@@ -21,6 +21,10 @@ public class Order {
         return total;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
     public List<OrderItem> getItems() {
         return List.copyOf(items); 
     }
@@ -30,7 +34,7 @@ public class Order {
         StringBuilder sb = new StringBuilder();
         sb.append("Order for ").append(customer.getName()).append(":\n");
         sb.append(String.format("%-15s | %-8s | %-10s\n", "Product", "Quantity", "Total"));
-        sb.append("----------------------------------\n");
+        sb.append("-----------------------------------------------------------------------\n");
         for (OrderItem item : items) { 
             sb.append(String.format("%-15s | %-8d | %-10.2f€\n", 
             item.getProduct().getName(), 

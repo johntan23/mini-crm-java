@@ -6,6 +6,10 @@ public class CRMSystem {
     private List<Product> products = new ArrayList<>();
     private List<Order> orders = new ArrayList<>();
 
+    public List<Customer> getCustomers() { return List.copyOf(customers); }
+    public List<Product> getProducts() { return List.copyOf(products); }
+    public List<Order> getOrders() { return List.copyOf(orders); }
+
     public void addCustomer(Customer c) { 
         if (c == null) throw new IllegalArgumentException("Customer cannot be null");
         if (findCustomerById(c.getId()) != null) {
