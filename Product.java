@@ -4,9 +4,14 @@ public class Product {
     private double price;
     private int stock;
 
+    // Constructor validates inputs and initializes a product
     public Product(int id, String name, double price, int stock) {
-        if (price <=0) { throw new IllegalArgumentException("Price must be positive"); }
-        if (stock < 0) { throw new IllegalArgumentException("Stock cannot be negative"); }
+        if (price <= 0) { 
+            throw new IllegalArgumentException("Price must be positive"); 
+        }
+        if (stock < 0) { 
+            throw new IllegalArgumentException("Stock cannot be negative"); 
+        }
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Name cannot be null or empty");
         }              
@@ -22,7 +27,7 @@ public class Product {
     public int getStock() { return stock; }
 
     public void setPrice(double price) { 
-        if (price <=0) { throw new IllegalArgumentException("Price must be positive"); }
+        if (price <= 0) { throw new IllegalArgumentException("Price must be positive"); }
         this.price = price; 
     }
     public void setStock(int stock) { 
@@ -30,6 +35,7 @@ public class Product {
         this.stock = stock; 
     }
     
+    // Reduces stock by quantity, ensures we don't go negative
     public void reduceStock(int quantity) {
         if (quantity <= stock) {
             stock -= quantity;
@@ -43,3 +49,8 @@ public class Product {
         return id + " | " + name + " | Price: " + price + "€ | Stock: " + stock;
     }
 }
+
+// Product represents an item for sale in the CRM system
+// Constructor ensures price is positive, stock is non-negative, and name is valid
+// reduceStock decrements available stock safely
+// toString provides a formatted string for debugging/display
